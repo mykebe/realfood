@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real food</title>
+    <link rel="stylesheet" href="../CSS/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <select id="languageSwitcher">
+                <option value="en">English</option>
+                <option value="de">Deutsch</option>
+            </select>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" placeholder="Search..." id="searchInput">
+        </div>
+
+        <!-- Toggle Button to Open/Close All Tabs -->
+        <div class="toggle-button">
+            <button id="toggleAll">Open All Details</button>
+        </div>
+
+        <!-- Profiles Container -->
+        <div class="profiles" id="profilesContainer">
+            <!-- Profiles will be dynamically generated here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to fetch and apply the translations dynamically
+        function loadTranslations(language) {
+            fetch(`../json/${language}.json`)
+                .then(response => response.json())
+                .then(translation => {
+                    // Apply translations to the HTML content
+                    document.getElementById('searchInput').placeholder = translation.search_placeholder;
+                    document.getElementById('toggleAll').textContent = language === 'en' ? translation.button_open : translation.button_close;
+
+                    // Generate profiles dynamically
+                    const profilesContainer = document.getElementById('profilesContainer');
+                    profilesContainer.innerHTML = ''; // Clear existing profiles
+
+                    translation.profiles.forEach(profile => {
+                        // Create profile container
+                        const profileElement = document.createElement('div');
+                        profileElement.classList.add('profile');
+
+                        // Add profile name
+                        const nameElement = document.createElement('h3');
+                        nameElement.classList.add('profile-name');
+                        nameElement.textContent = profile.name;
+                        profileElement.appendChild(nameElement);
+
+                        // Add profile details
+                        const detailsElement = document.createElement('div');
+                        detailsElement.classList.add('profile-details');
+                        const profileInfo = document.createElement('div');
+                        profileInfo.classList.add('profile-info');
+
+                        // Add profile details (Best, Good, Avoid)
+                        const bestLabel = document.createElement('p');
+                        bestLabel.innerHTML = `<span class="label">${translation.label_best}</span><span>${profile.best}</span>`;
+                        profileInfo.appendChild(bestLabel);
+
+                        const goodLabel = document.createElement('p');
+                        goodLabel.innerHTML = `<span class="label">${translation.label_good}</span><span>${profile.good}</span>`;
+                        profileInfo.appendChild(goodLabel);
+
+                        const avoidLabel = document.createElement('p');
+                        avoidLabel.innerHTML = `<span class="label">${translation.label_avoid}</span><span>${profile.avoid}</span>`;
+                        profileInfo.appendChild(avoidLabel);
+
+                        detailsElement.appendChild(profileInfo);
+                        profileElement.appendChild(detailsElement);
+
+                        // Add profile to container
+                        profilesContainer.appendChild(profileElement);
+                    });
+
+                    // Re-enable toggle functionality
+                    document.querySelectorAll('.profile-name').forEach(name => {
+                        name.addEventListener('click', function() {
+                            const profileDetails = this.nextElementSibling;
+                            profileDetails.style.display = profileDetails.style.display === 'block' ? 'none' : 'block';
+                        });
+                    });
+                })
+                .catch(error => console.error('Error loading translation:', error));
+        }
+
+        // Event listener for language switcher
+        document.getElementById('languageSwitcher').addEventListener('change', function() {
+            loadTranslations(this.value);
+        });
+
+        // JavaScript to filter profiles based on search input
+        document.getElementById('searchInput').addEventListener('keyup', function(event) {
+            const searchTerm = event.target.value.toLowerCase();
+            const profiles = document.querySelectorAll('.profile');
+            profiles.forEach(profile => {
+                const name = profile.querySelector('h3').textContent.toLowerCase();
+                profile.style.display = name.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+
+        // JavaScript to toggle all profile details at once
+        document.getElementById('toggleAll').addEventListener('click', function() {
+            const allDetails = document.querySelectorAll('.profile-details');
+            const isAnyOpen = Array.from(allDetails).some(detail => detail.style.display === 'block');
+            allDetails.forEach(detail => {
+                detail.style.display = isAnyOpen ? 'none' : 'block';
+            });
+            this.textContent = isAnyOpen ? 'Open All Details' : 'Close All Details';
+        });
+
+        // Default language (English)
+        loadTranslations('en');
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and container */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Language Switcher */
+.language-switcher {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.language-switcher select {
+    font-size: 16px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+/* Search Bar */
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* Toggle Button */
+.toggle-button {
+    margin-bottom: 20px;
+}
+
+.toggle-button button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.toggle-button button:hover {
+    background-color: #45a049;
+}
+
+/* Profile Cards */
+.profiles {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile {
+    background-color: #f9f9f9;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile h3 {
+    font-size: 20px;
+    color: #333;
+    cursor: pointer; /* Indicates that the name is clickable */
+}
+
+.profile-details {
+    display: none; /* Initially hide the details */
+    margin-top: 10px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-info p {
+    font-size: 16px;
+    color: #666;
+    margin: 5px 0;  /* Adjusted margin between label and content */
+}
+
+.label {
+    font-weight: bold;
+    color: #333;
+    display: block; /* Ensures the label is on a new line */
+    margin-bottom: 3px;  /* Reduced margin between label and content */
+}
